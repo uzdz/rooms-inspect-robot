@@ -36,8 +36,6 @@ biligo/
 *.log
 *.cache
 *.diff
-*.exe
-*.exe~
 *.patch
 *.tmp
 *debug.test
