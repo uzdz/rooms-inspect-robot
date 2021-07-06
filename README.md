@@ -8,7 +8,8 @@
 
 #### 第二步：运行GO程序
 
-> 可参考：ziroom --help，查看提示信息。
+> 需自行编译（参考Golang交叉编译）。使用命令可参考：ziroom --help，查看提示信息。
+
 
 ```shell script
 ┌─[uzdz@uzdz] - [~/work/golang/ziroom] - [Tue Jul 06, 14:19]
@@ -29,3 +30,11 @@ Args:
 将从自如拿到的请求URL带入到参数末尾即可，以下进行举例：
 
 * linux_ziroom --ding='https://oapi.dingtalk.com/robot/send?access_token=xxx' --dingKey=xxx 'https://www.ziroom.com/z/z2-s100011-u13-r0/?p=x14&cp=0TO4500&isOpen=1'
+
+## License
+
+This project is licensed under the [Apache v2.0 License](https://github.com/apache/skywalking-cli/blob/master/LICENSE).
+
+## 免责声明
+
+此软件程序用于替代人工耗时的检索房源过程，请勿修改代码中的网站保护策略。知法懂法，请参考[破坏计算机信息系统罪](https://www.66law.cn/zuiming/276.aspx)。
