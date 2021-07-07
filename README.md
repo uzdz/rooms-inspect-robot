@@ -36,6 +36,10 @@ Args:
 
 * linux_ziroom --ding='https://oapi.dingtalk.com/robot/send?access_token=xxx' --dingKey=xxx 'https://www.ziroom.com/z/z2-s100011-u13-r0/?p=x14&cp=0TO4500&isOpen=1'
 
+#### 第三步：钉钉通知
+
+![](images/FCEF686C-A8A1-4FD5-AE75-038CA48A13E0.png)
+
 ## License
 
 This project is licensed under the [Apache v2.0 License](https://github.com/apache/skywalking-cli/blob/master/LICENSE).
