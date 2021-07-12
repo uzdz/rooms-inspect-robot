@@ -26,7 +26,6 @@ Flags:
   -d, --ding=DING         钉钉消息通知接口地址
   -k, --dingKey="自如"      钉钉消息通知授权KEY（白名单）
   -p, --taskInterval=300  任务周期间隔时长（最少5分钟），单位：秒
-  -t, --TestForNotice=0   [测试] 每次调度推送t个房源通知
 
 Args:
   [<url>]  自如网页版请求链接
