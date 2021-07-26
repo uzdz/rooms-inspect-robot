@@ -1,4 +1,4 @@
-package core
+package pkg
 
 import (
 	"bytes"
@@ -9,16 +9,17 @@ import (
 	"strings"
 )
 
-var template = "## [%Key 新房源提醒]  %Title \n\n" +
+var template = "## %Platform [%Key 新房源提醒]  %Title \n\n" +
 	"%Image \n\n" +
 	"链接：%Url \n\n" +
 	"详情：%Desc \n\n" +
 	"标签：%Tag \n\n"
 
-func DingToInfo(room Room) bool {
+func DingNotify(room Room, dingUrl, dingKey string) bool {
 	sendTemplate := template
 
-	sendTemplate = strings.Replace(sendTemplate, "%Key", WebhookUrlKey, -1)
+	sendTemplate = strings.Replace(sendTemplate, "%Platform", room.Platform, -1)
+	sendTemplate = strings.Replace(sendTemplate, "%Key", dingKey, -1)
 	sendTemplate = strings.Replace(sendTemplate, "%Title", room.Title, -1)
 
 	if room.Url != "" {
@@ -45,7 +46,7 @@ func DingToInfo(room Room) bool {
 
 	b, _ := json.Marshal(data)
 
-	resp, err := http.Post(WebhookUrl,
+	resp, err := http.Post(dingUrl,
 		"application/json",
 		bytes.NewBuffer(b))
 	if err != nil {
