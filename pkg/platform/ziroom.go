@@ -64,7 +64,7 @@ func (platform *ZIRoomImpl) Validation() {
 		details = append(details, "p#")
 	}
 
-	platform.requestTemplateURL = "https://www.ziroom.com/" + params[1] + "/" + strings.Join(details, "-") + end
+	platform.requestTemplateURL = "https://" + curl.Host + "/" + params[1] + "/" + strings.Join(details, "-") + end
 }
 
 func (platform *ZIRoomImpl) TotalPage() int {
@@ -85,7 +85,7 @@ func (platform *ZIRoomImpl) TotalPage() int {
 
 	totalPage := "1"
 
-	dom.Find("#page>span").Each(func(i int, s *goquery.Selection) {
+	dom.Find(".page>span").Each(func(i int, s *goquery.Selection) {
 		if strings.Contains(s.Text(), "共") && strings.Contains(s.Text(), "页") {
 			totalPage = utils.Between(s.Text(), "共", "页")
 		}
@@ -121,7 +121,7 @@ func (platform *ZIRoomImpl) ObtainRefreshRooms(page int) []pkg.Room {
 			continue
 		}
 
-		allRooms = append(allRooms, perRoomInfo(dom)...)
+		allRooms = append(allRooms, platform.perRoomInfo(dom)...)
 		resp.Body.Close()
 
 		// 防止给自如找房压力，设置每页请求间隔
@@ -164,7 +164,7 @@ func (platform *ZIRoomImpl) Calculation(refreshRooms []pkg.Room) []pkg.Room {
 	return notifyRooms
 }
 
-func perRoomInfo(dom *goquery.Document) []pkg.Room {
+func (platform *ZIRoomImpl) perRoomInfo(dom *goquery.Document) []pkg.Room {
 	rooms := make([]pkg.Room, 0, 10)
 
 	dom.Find("div[class=Z_list-box]>div[class=item]").Each(func(i int, s *goquery.Selection) {

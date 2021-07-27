@@ -43,14 +43,17 @@ func main() {
 		}
 
 	case lianjiaCommand.FullCommand():
-		//lj := *examplesOfLianjia
-		//
-		//for i := 0; i < len(lj); i++ {
-		//	example := &platform.ZIRoomImpl{
-		//		InputURL: lj[i],
-		//	}
-		//	runExamples = append(runExamples, example)
-		//}
+		lj := *examplesOfLianjia
+
+		for i := 0; i < len(lj); i++ {
+			example := &platform.LianJiaImpl{
+				InputURL: lj[i],
+			}
+
+			// 生成请求模版
+			example.Validation()
+			runExamples = append(runExamples, example)
+		}
 	}
 
 	if len(*dingUrl) == 0 {
@@ -69,5 +72,6 @@ func main() {
 		panic("请至少输入一个平台的搜索地址...")
 	}
 
-	pkg.BeginToSearch(runExamples, time.Duration(*taskInterval), *dingUrl, *dingKey)
+	pkg.BeginToInspect(runExamples, time.Duration(*taskInterval), *dingUrl, *dingKey)
+
 }

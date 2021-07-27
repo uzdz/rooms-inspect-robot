@@ -4,9 +4,9 @@ import (
 	"time"
 )
 
-func BeginToSearch(examples []AbilityService, taskInterval time.Duration, WebHookUrl, WebHookUrlKey string) {
+func BeginToInspect(examples []AbilityService, taskInterval time.Duration, WebHookUrl, WebHookUrlKey string) {
 	for {
-		t := time.NewTimer(time.Second * taskInterval)
+		t := time.NewTimer(time.Second * 1)
 
 		<-t.C
 
