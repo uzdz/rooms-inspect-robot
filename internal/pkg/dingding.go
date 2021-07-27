@@ -11,7 +11,7 @@ import (
 
 var template = "## [%Key 新房源提醒] %Platform %Title \n\n" +
 	"%Image \n\n" +
-	"链接：%Url \n\n" +
+	"链接：[房源地址](%Url) \n\n" +
 	"详情：%Desc \n\n" +
 	"标签：%Tag \n\n"
 
