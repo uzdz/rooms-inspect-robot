@@ -6,7 +6,7 @@ import (
 
 func BeginToInspect(examples []AbilityService, taskInterval time.Duration, WebHookUrl, WebHookUrlKey string) {
 	for {
-		t := time.NewTimer(time.Second * 1)
+		t := time.NewTimer(time.Second * taskInterval)
 
 		<-t.C
 
