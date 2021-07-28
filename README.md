@@ -29,7 +29,7 @@ Flags:
   -p, --taskInterval=300  任务周期间隔时长（最少5分钟），单位：秒
 
 Args:
-  [<url>]  自如/链家网页版房源请求地址。
+  [<url>]  自如/链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔。
 ```
 
 以下进行举例：
@@ -39,6 +39,34 @@ Args:
 ## 第三步：钉钉通知
 
 ![](images/FCEF686C-A8A1-4FD5-AE75-038CA48A13E0.png)
+
+# Go编译不同的平台文件
+
+Golang 支持在一个平台下生成另一个平台可执行程序的交叉编译功能。
+
+#### Mac下编译Linux, Windows平台的64位可执行程序：
+
+* `Linux：`CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+* `Windows：`CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
+
+#### Linux下编译Mac, Windows平台的64位可执行程序：
+
+* `Mac：`CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build main.go
+* `Windows：`CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
+
+#### Windows下编译Mac, Linux平台的64位可执行程序：
+
+```bash
+SET CGO_ENABLED=0
+SET GOOS=darwin3
+SET GOARCH=amd64
+go build main.go
+
+SET CGO_ENABLED=0
+SET GOOS=linux
+SET GOARCH=amd64
+go build main.go
+```
 
 # License
 
