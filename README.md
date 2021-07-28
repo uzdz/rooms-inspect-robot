@@ -56,17 +56,19 @@ Golang 支持在一个平台下生成另一个平台可执行程序的交叉编�
 
 #### Windows下编译Mac, Linux平台的64位可执行程序：
 
-```bash
-SET CGO_ENABLED=0
-SET GOOS=darwin3
-SET GOARCH=amd64
-go build main.go
+##### `Mac`
 
-SET CGO_ENABLED=0
-SET GOOS=linux
-SET GOARCH=amd64
-go build main.go
-```
+1. SET CGO_ENABLED=0
+2. SET GOOS=darwin3
+3. SET GOARCH=amd64
+4. go build main.go
+
+##### `Linux`
+
+1. SET CGO_ENABLED=0
+2. SET GOOS=linux
+3. SET GOARCH=amd64
+4. go build main.go
 
 # License
 
