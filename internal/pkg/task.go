@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"log"
 	"time"
 )
 
@@ -9,6 +10,8 @@ func BeginToInspect(examples []AbilityService, taskInterval time.Duration, WebHo
 		t := time.NewTimer(time.Second * taskInterval)
 
 		<-t.C
+
+		log.Println("进行房源检查任务...")
 
 		for i := 0; i < len(examples); i++ {
 			runSearchExample(examples[i], WebHookUrl, WebHookUrlKey)
