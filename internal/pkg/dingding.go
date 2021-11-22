@@ -11,11 +11,17 @@ import (
 
 var template = "## [%Key 新房源提醒] %Platform %Title \n\n" +
 	"%Image \n\n" +
-	"链接：[房源地址](%Url) \n\n" +
+	"PC链接：[房源地址](%Url) \n\n" +
+	"手机链接：[房源地址](%MUrl) \n\n" +
 	"详情：%Desc \n\n" +
 	"标签：%Tag \n\n"
 
 func DingNotify(room Room, dingUrl, dingKey string) bool {
+
+	if room.Title == "" {
+		return false
+	}
+
 	sendTemplate := template
 
 	sendTemplate = strings.Replace(sendTemplate, "%Platform", room.Platform, -1)
@@ -24,6 +30,12 @@ func DingNotify(room Room, dingUrl, dingKey string) bool {
 
 	if room.Url != "" {
 		sendTemplate = strings.Replace(sendTemplate, "%Url", room.Url, -1)
+	}
+
+	if room.MUrl != "" {
+		sendTemplate = strings.Replace(sendTemplate, "%MUrl", room.MUrl, -1)
+	} else {
+		sendTemplate = strings.Replace(sendTemplate, "%MUrl", room.Url, -1)
 	}
 
 	if room.Image != "" {

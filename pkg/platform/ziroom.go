@@ -176,6 +176,17 @@ func (platform *ZIRoomImpl) perRoomInfo(dom *goquery.Document) []pkg.Room {
 		openUrl, openUrlExists := picContent.Attr("href")
 		if openUrlExists {
 			perRoom.Url = "https:" + openUrl
+
+			splitOfMobile := strings.Split(perRoom.Url, "/")
+			if len(splitOfMobile) > 0 {
+				numOfRoom := splitOfMobile[len(splitOfMobile)-1]
+				if numOfRoom != "" {
+					num := strings.Split(numOfRoom, ".")
+					if len(num) > 0 {
+						perRoom.MUrl = "https://m.ziroom.com/bj/x/999.html?inv_no=" + num[0]
+					}
+				}
+			}
 		}
 
 		// 首张图片
