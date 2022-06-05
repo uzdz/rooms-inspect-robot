@@ -12,7 +12,7 @@ import (
 var (
 	dingUrl      = kingpin.Flag("dingUrl", "钉钉消息通知接口地址").Short('d').String()
 	dingKey      = kingpin.Flag("dingKey", "钉钉消息通知授权KEY（白名单）").Short('k').Default("推送").String()
-	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长（最少5分钟），单位：秒").Short('p').Default("300").Int()
+	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长，单位：秒").Short('p').Default("300").Int()
 	url          = kingpin.Arg("url", "自如/链家网页版房源请求地址。").Strings()
 
 	//ziroomCommand    = app.Command("ziroom", "请输入自如房源地址，房源搜索地址参考：https://www.ziroom.com/z/，多个地址通过空格分割。")
