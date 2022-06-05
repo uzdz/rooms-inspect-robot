@@ -167,7 +167,7 @@ func (platform *ZIRoomImpl) Calculation(refreshRooms []pkg.Room) []pkg.Room {
 func (platform *ZIRoomImpl) perRoomInfo(dom *goquery.Document) []pkg.Room {
 	rooms := make([]pkg.Room, 0, 10)
 
-	dom.Find("div[class=Z_list-box]>div[class=item]").Each(func(i int, s *goquery.Selection) {
+	dom.Find("div[class=Z_list]>div[class=Z_list-box]>div[class=item]").Each(func(i int, s *goquery.Selection) {
 		perRoom := pkg.Room{}
 
 		picContent := s.Find("div[class=pic-box]>a").First()

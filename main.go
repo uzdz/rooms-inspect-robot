@@ -64,8 +64,8 @@ func main() {
 		panic("钉钉密钥未设置。")
 	}
 
-	if *taskInterval <= 300 {
-		*taskInterval = 300
+	if *taskInterval <= 30 {
+		*taskInterval = 30
 	}
 
 	if len(runExamples) <= 0 {
