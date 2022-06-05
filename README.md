@@ -26,7 +26,7 @@ Flags:
       --help              Show context-sensitive help (also try --help-long and --help-man).
   -d, --dingUrl=DINGURL   钉钉消息通知接口地址
   -k, --dingKey="推送"      钉钉消息通知授权KEY（白名单）
-  -p, --taskInterval=300  任务周期间隔时长（最少5分钟），单位：秒
+  -p, --taskInterval=300  任务周期间隔时长，单位：秒
 
 Args:
   [<url>]  自如/链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔。
