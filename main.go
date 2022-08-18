@@ -16,7 +16,7 @@ var (
 	noticeUrl      = kingpin.Flag("noticeUrl", "消息通知接口地址").Short('u').String()
 	noticeKey      = kingpin.Flag("noticeKey", "消息通知授权KEY（白名单）").Short('k').Default("推送").String()
 	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长，单位：秒").Short('t').Default("300").Int()
-	url          = kingpin.Arg("url", "自如/链家网页版房源请求地址").Strings()
+	url          = kingpin.Arg("url", "自如/链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔。").Strings()
 )
 
 func main() {

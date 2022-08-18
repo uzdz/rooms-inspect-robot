@@ -18,15 +18,16 @@
 
 
 ```shell script
-(base) ┌─[uzdz@uzdz] - [~/work/golang/rooms-inspect-robot] - [Tue Jul 27, 11:10]
-└─[$] <git:(master*)> go run main.go --help
+╭─    ~/golang/rooms-inspect-robot  on   master ····························································································· INT ✘  base   at 16:27:11  ─╮
+╰─ go run main.go --help                                                                                                                                                             ─╯
 usage: main [<flags>] [<url>...]
 
 Flags:
-      --help              Show context-sensitive help (also try --help-long and --help-man).
-  -d, --dingUrl=DINGURL   钉钉消息通知接口地址
-  -k, --dingKey="推送"      钉钉消息通知授权KEY（白名单）
-  -p, --taskInterval=300  任务周期间隔时长，单位：秒
+      --help                 Show context-sensitive help (also try --help-long and --help-man).
+  -p, --notice="ding"        消息通知平台：ding（钉钉）、fs（飞书）
+  -u, --noticeUrl=NOTICEURL  消息通知接口地址
+  -k, --noticeKey="Home"       消息通知授权KEY（白名单）
+  -t, --taskInterval=300     任务周期间隔时长，单位：秒
 
 Args:
   [<url>]  自如/链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔。
@@ -34,7 +35,7 @@ Args:
 
 以下进行举例：
 
-> ./robot --dingUrl='https://oapi.dingtalk.com/robot/send?access_token=xxx' --dingKey=xxx 'https://www.ziroom.com/z/z2-s100011-r0/?p=x1|14&cp=3000TO5000&isOpen=1' 'https://bj.lianjia.com/ditiezufang/li651/ie1su1rt200600000001rp4/?showMore=1'
+> ./robot --notice=ding --noticeUrl='https://oapi.dingtalk.com/robot/send?access_token=xxx' --noticeKey=xxx 'https://www.ziroom.com/z/z2-s100011-r0/?p=x1|14&cp=3000TO5000&isOpen=1' 'https://bj.lianjia.com/ditiezufang/li651/ie1su1rt200600000001rp4/?showMore=1'
 >
 ## 第三步：钉钉通知
 
