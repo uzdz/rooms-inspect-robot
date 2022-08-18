@@ -3,9 +3,10 @@ package pkg
 import (
 	"log"
 	"time"
+	"ziroom/internal/pkg/core"
 )
 
-func BeginToInspect(examples []AbilityService, taskInterval time.Duration, WebHookUrl, WebHookUrlKey string) {
+func BeginToInspect(examples []core.AbilityService, notice core.NoticeService, taskInterval time.Duration, WebHookUrl, WebHookUrlKey string) {
 	for {
 		t := time.NewTimer(time.Second * taskInterval)
 
@@ -14,7 +15,7 @@ func BeginToInspect(examples []AbilityService, taskInterval time.Duration, WebHo
 		log.Println("进行房源检查任务...")
 
 		for i := 0; i < len(examples); i++ {
-			runSearchExample(examples[i], WebHookUrl, WebHookUrlKey)
+			runSearchExample(examples[i], notice, WebHookUrl, WebHookUrlKey)
 		}
 	}
 }
@@ -23,7 +24,7 @@ func BeginToInspect(examples []AbilityService, taskInterval time.Duration, WebHo
  * @Description: 运行每个房源搜索实例
  * @param example 搜索相关信息
  */
-func runSearchExample(example AbilityService, WebHookUrl, WebHookUrlKey string) {
+func runSearchExample(example core.AbilityService, notice core.NoticeService, WebHookUrl, WebHookUrlKey string) {
 
 	totalPageNum := example.TotalPage()
 
@@ -41,6 +42,6 @@ func runSearchExample(example AbilityService, WebHookUrl, WebHookUrlKey string) 
 
 	// 新房源发送钉钉通知
 	for i := 0; i < len(valueNotifyRooms); i++ {
-		DingNotify(valueNotifyRooms[i], WebHookUrl, WebHookUrlKey)
+		notice.Send(valueNotifyRooms[i], WebHookUrl, WebHookUrlKey)
 	}
 }

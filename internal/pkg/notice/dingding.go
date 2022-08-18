@@ -1,4 +1,4 @@
-package pkg
+package notice
 
 import (
 	"bytes"
@@ -7,25 +7,37 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"ziroom/internal/pkg/core"
 )
 
-var template = "## [%Key 新房源提醒] %Platform %Title \n\n" +
+var dingTemplate = "## [%Key 新房源提醒] %Platform %Title \n\n" +
 	"%Image \n\n" +
 	"PC链接：[房源地址](%Url) \n\n" +
 	"手机链接：[房源地址](%MUrl) \n\n" +
 	"详情：%Desc \n\n" +
 	"标签：%Tag \n\n"
 
-func DingNotify(room Room, dingUrl, dingKey string) bool {
+
+type DingImpl struct {
+
+	Name string `default:"钉钉"`
+
+}
+
+func (ding *DingImpl) GetName() string {
+	return ding.Name
+}
+
+func (ding *DingImpl) Send(room core.Room, url, key string) bool {
 
 	if room.Title == "" {
 		return false
 	}
 
-	sendTemplate := template
+	sendTemplate := dingTemplate
 
 	sendTemplate = strings.Replace(sendTemplate, "%Platform", room.Platform, -1)
-	sendTemplate = strings.Replace(sendTemplate, "%Key", dingKey, -1)
+	sendTemplate = strings.Replace(sendTemplate, "%Key", key, -1)
 	sendTemplate = strings.Replace(sendTemplate, "%Title", room.Title, -1)
 
 	if room.Url != "" {
@@ -42,8 +54,20 @@ func DingNotify(room Room, dingUrl, dingKey string) bool {
 		sendTemplate = strings.Replace(sendTemplate, "%Image", "![image]("+room.Image+")", -1)
 	}
 
+	for i := 0; i < len(room.Desc); i++ {
+		room.Desc[i] = strings.ReplaceAll(room.Desc[i], " ", "")
+		room.Desc[i] = strings.ReplaceAll(room.Desc[i], "\t", "")
+		room.Desc[i] = strings.ReplaceAll(room.Desc[i], "\n", "")
+	}
+
 	if room.Desc != nil && len(room.Desc) > 0 {
 		sendTemplate = strings.Replace(sendTemplate, "%Desc", strings.Join(room.Desc, "、"), -1)
+	}
+
+	for i := 0; i < len(room.Tag); i++ {
+		room.Tag[i] = strings.ReplaceAll(room.Tag[i], " ", "")
+		room.Tag[i] = strings.ReplaceAll(room.Tag[i], "\t", "")
+		room.Tag[i] = strings.ReplaceAll(room.Tag[i], "\n", "")
 	}
 
 	if room.Tag != nil && len(room.Tag) > 0 {
@@ -58,7 +82,7 @@ func DingNotify(room Room, dingUrl, dingKey string) bool {
 
 	b, _ := json.Marshal(data)
 
-	resp, err := http.Post(dingUrl,
+	resp, err := http.Post(url,
 		"application/json",
 		bytes.NewBuffer(b))
 	if err != nil {

@@ -4,22 +4,19 @@ import (
 	"strings"
 	"time"
 	"ziroom/internal/pkg"
+	"ziroom/internal/pkg/core"
+	notice2 "ziroom/internal/pkg/notice"
 	"ziroom/pkg/platform"
 
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
-	dingUrl      = kingpin.Flag("dingUrl", "钉钉消息通知接口地址").Short('d').String()
-	dingKey      = kingpin.Flag("dingKey", "钉钉消息通知授权KEY（白名单）").Short('k').Default("推送").String()
-	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长，单位：秒").Short('p').Default("300").Int()
-	url          = kingpin.Arg("url", "自如/链家网页版房源请求地址。").Strings()
-
-	//ziroomCommand    = app.Command("ziroom", "请输入自如房源地址，房源搜索地址参考：https://www.ziroom.com/z/，多个地址通过空格分割。")
-	//examplesOfZiroom = ziroomCommand.Arg("examplesOfZiroom", "URLS").Required().Strings()
-	//
-	//lianjiaCommand    = app.Command("lianjia", "请输入链家房源地址，通过空格分离。")
-	//examplesOfLianjia = lianjiaCommand.Arg("examplesOfLianjia", "URLS").Required().Strings()
+	notice      = kingpin.Flag("notice", "消息通知平台：ding（钉钉）、fs（飞书）").Short('p').Default("ding").String()
+	noticeUrl      = kingpin.Flag("noticeUrl", "消息通知接口地址").Short('u').String()
+	noticeKey      = kingpin.Flag("noticeKey", "消息通知授权KEY（白名单）").Short('k').Default("推送").String()
+	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长，单位：秒").Short('t').Default("300").Int()
+	url          = kingpin.Arg("url", "自如/链家网页版房源请求地址").Strings()
 )
 
 func main() {
@@ -30,7 +27,7 @@ func main() {
 		panic("请设置自如/链家网页版房源请求地址。")
 	}
 
-	runExamples := make([]pkg.AbilityService, 0, 10)
+	runExamples := make([]core.AbilityService, 0, 10)
 
 	for i := 0; i < len(examples); i++ {
 		value := examples[i]
@@ -56,12 +53,24 @@ func main() {
 		}
 	}
 
-	if len(*dingUrl) == 0 {
-		panic("钉钉通知未设置。")
+	// 消息通知平台
+	var noticePlatform core.NoticeService = nil
+	if *notice == "ding" {
+		noticePlatform = &notice2.DingImpl{}
+	} else if *notice == "fs" {
+		noticePlatform = &notice2.FeishuImpl{}
 	}
 
-	if len(*dingKey) == 0 {
-		panic("钉钉密钥未设置。")
+	if noticePlatform == nil {
+		panic("通知平台暂未支持，请提Issues～")
+	}
+
+	if len(*noticeUrl) == 0 {
+		panic(noticePlatform.GetName() + "消息通知平台地址未设置。")
+	}
+
+	if len(*noticeKey) == 0 {
+		panic(noticePlatform.GetName() + "消息通知平台密钥未设置。")
 	}
 
 	if *taskInterval <= 30 {
@@ -72,6 +81,6 @@ func main() {
 		panic("请至少输入一个平台的搜索地址...")
 	}
 
-	pkg.BeginToInspect(runExamples, time.Duration(*taskInterval), *dingUrl, *dingKey)
+	pkg.BeginToInspect(runExamples, noticePlatform, time.Duration(*taskInterval), *noticeUrl, *noticeKey)
 
 }

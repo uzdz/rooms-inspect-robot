@@ -1,4 +1,4 @@
-package pkg
+package core
 
 type Room struct {
 	Url      string   // 打开链接

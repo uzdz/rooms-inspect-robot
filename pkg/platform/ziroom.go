@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"ziroom/internal/pkg"
+	"ziroom/internal/pkg/core"
 	"ziroom/pkg/utils"
 
 	"github.com/PuerkitoBio/goquery"
@@ -19,7 +19,7 @@ type ZIRoomImpl struct {
 	/**
 	 * @Description: 缓存房间
 	 */
-	cacheRoom map[string]pkg.Room
+	cacheRoom map[string]core.Room
 
 	/**
 	 * @Description: 搜索房源URL
@@ -99,9 +99,9 @@ func (platform *ZIRoomImpl) TotalPage() int {
 	return 1
 }
 
-func (platform *ZIRoomImpl) ObtainRefreshRooms(page int) []pkg.Room {
+func (platform *ZIRoomImpl) ObtainRefreshRooms(page int) []core.Room {
 
-	allRooms := make([]pkg.Room, 0, 10)
+	allRooms := make([]core.Room, 0, 10)
 
 	for i := 1; i <= page; i++ {
 		nextRequestUrl := strings.Replace(platform.requestTemplateURL, "#", strconv.Itoa(i), -1)
@@ -131,13 +131,13 @@ func (platform *ZIRoomImpl) ObtainRefreshRooms(page int) []pkg.Room {
 	return allRooms
 }
 
-func (platform *ZIRoomImpl) Calculation(refreshRooms []pkg.Room) []pkg.Room {
+func (platform *ZIRoomImpl) Calculation(refreshRooms []core.Room) []core.Room {
 
 	if platform.cacheRoom == nil {
-		platform.cacheRoom = make(map[string]pkg.Room)
+		platform.cacheRoom = make(map[string]core.Room)
 	}
 
-	notifyRooms := make([]pkg.Room, 0, 10)
+	notifyRooms := make([]core.Room, 0, 10)
 
 	if refreshRooms == nil || len(refreshRooms) <= 0 {
 		return notifyRooms
@@ -164,11 +164,11 @@ func (platform *ZIRoomImpl) Calculation(refreshRooms []pkg.Room) []pkg.Room {
 	return notifyRooms
 }
 
-func (platform *ZIRoomImpl) perRoomInfo(dom *goquery.Document) []pkg.Room {
-	rooms := make([]pkg.Room, 0, 10)
+func (platform *ZIRoomImpl) perRoomInfo(dom *goquery.Document) []core.Room {
+	rooms := make([]core.Room, 0, 10)
 
 	dom.Find("div[class=Z_list]>div[class=Z_list-box]>div[class=item]").Each(func(i int, s *goquery.Selection) {
-		perRoom := pkg.Room{}
+		perRoom := core.Room{}
 
 		picContent := s.Find("div[class=pic-box]>a").First()
 

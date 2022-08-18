@@ -1,4 +1,4 @@
-package pkg
+package core
 
 /**
  * @Description: 不同平台所需能力
