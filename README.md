@@ -18,8 +18,8 @@
 
 
 ```shell script
-╭─    ~/golang/rooms-inspect-robot  on   master ····························································································· INT ✘  base   at 16:27:11  ─╮
-╰─ go run main.go --help                                                                                                                                                             ─╯
+(base) ┌─[uzdz@uzdz] - [~/work/golang/rooms-inspect-robot] - [Tue Jul 27, 11:10]
+└─[$] <git:(master*)> go run main.go --help                                                                                                                                                          ─╯
 usage: main [<flags>] [<url>...]
 
 Flags:
