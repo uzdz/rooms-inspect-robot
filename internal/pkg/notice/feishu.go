@@ -13,9 +13,7 @@ import (
 var fsTemplate = "{\"config\":{\"wide_screen_mode\":true},\"elements\":[{\"fields\":[{\"is_short\":true,\"text\":{\"content\":\"**平台：**%Platform\",\"tag\":\"lark_md\"}},{\"is_short\":false,\"text\":{\"content\":\"\",\"tag\":\"lark_md\"}},{\"is_short\":true,\"text\":{\"content\":\"**详情：**\\n%Desc\",\"tag\":\"lark_md\"}},{\"is_short\":false,\"text\":{\"content\":\"\",\"tag\":\"lark_md\"}},{\"is_short\":true,\"text\":{\"content\":\"**标签：**\\n%Tag\",\"tag\":\"lark_md\"}}],\"tag\":\"div\"},{\"tag\":\"hr\"},{\"actions\":[{\"tag\":\"button\",\"text\":{\"content\":\"PC链接\",\"tag\":\"lark_md\"},\"url\":\"%Url\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":{\"content\":\"Mobile链接\",\"tag\":\"lark_md\"},\"url\":\"https://applink.feishu.cn/client/web_url/open?mode=sidebar-semi&url=%MUrl\",\"type\":\"primary\"}],\"tag\":\"action\"}],\"header\":{\"template\":\"green\",\"title\":{\"content\":\"[%Key 新房源提醒] %Title\",\"tag\":\"plain_text\"}}}"
 
 type FeishuImpl struct {
-
 	Name string `default:"飞书"`
-
 }
 
 func (feishu *FeishuImpl) GetName() string {
@@ -81,12 +79,14 @@ func (feishu *FeishuImpl) Send(room core.Room, url, key string) bool {
 		bytes.NewBuffer(b))
 	if err != nil {
 		fmt.Println(err)
+		return false
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		fmt.Println(string(body))
+		return false
 	}
 	return true
 }

@@ -17,11 +17,8 @@ var dingTemplate = "## [%Key 新房源提醒] %Platform %Title \n\n" +
 	"详情：%Desc \n\n" +
 	"标签：%Tag \n\n"
 
-
 type DingImpl struct {
-
 	Name string `default:"钉钉"`
-
 }
 
 func (ding *DingImpl) GetName() string {
@@ -87,12 +84,14 @@ func (ding *DingImpl) Send(room core.Room, url, key string) bool {
 		bytes.NewBuffer(b))
 	if err != nil {
 		fmt.Println(err)
+		return false
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		fmt.Println(string(body))
+		return false
 	}
 	return true
 }
