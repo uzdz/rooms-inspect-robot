@@ -85,7 +85,7 @@ func (platform *ZIRoomImpl) TotalPage() int {
 
 	totalPage := "1"
 
-	dom.Find(".page>span").Each(func(i int, s *goquery.Selection) {
+	dom.Find("#page>span").Each(func(i int, s *goquery.Selection) {
 		if strings.Contains(s.Text(), "共") && strings.Contains(s.Text(), "页") {
 			totalPage = utils.Between(s.Text(), "共", "页")
 		}
