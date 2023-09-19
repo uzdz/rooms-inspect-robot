@@ -74,7 +74,7 @@ func (platform *LianJiaImpl) Validation() {
 func (platform *LianJiaImpl) TotalPage() int {
 	resp, err := http.Get(platform.InputURL)
 	if err != nil {
-		log.Printf("此次网络请求异常，等待下次调度～")
+		log.Printf("此次网络请求异常，等待下次调度：" + err.Error())
 		return 0
 	}
 	defer resp.Body.Close()
@@ -83,7 +83,7 @@ func (platform *LianJiaImpl) TotalPage() int {
 	// 解析起始页内容
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
 	if err != nil {
-		log.Printf("此次起始页解析异常，等待下次调度～")
+		log.Printf("此次起始页解析异常，等待下次调度：" + err.Error())
 		return 0
 	}
 
