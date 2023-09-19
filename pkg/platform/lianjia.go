@@ -139,27 +139,27 @@ func (platform *LianJiaImpl) Calculation(refreshRooms []core.Room) []core.Room {
 
 	notifyRooms := make([]core.Room, 0, 10)
 
-	if refreshRooms == nil || len(refreshRooms) <= 0 {
-		return notifyRooms
-	}
-
-	begin := false
-	if platform.cacheRoom == nil || len(platform.cacheRoom) <= 0 {
-		begin = true
-	}
-
-	for i := 0; i < len(refreshRooms); i++ {
-		if begin == false {
-			if _, ok := platform.cacheRoom[refreshRooms[i].Url]; ok {
-				// 存在，不预警
-			} else {
-				refreshRooms[i].Platform = platform.GetPlatform()
-				notifyRooms = append(notifyRooms, refreshRooms[i])
-			}
+	if refreshRooms != nil && len(refreshRooms) > 0 {
+		begin := false
+		if platform.cacheRoom == nil || len(platform.cacheRoom) <= 0 {
+			begin = true
 		}
 
-		platform.cacheRoom[refreshRooms[i].Url] = refreshRooms[i]
+		for i := 0; i < len(refreshRooms); i++ {
+			if begin == false {
+				if _, ok := platform.cacheRoom[refreshRooms[i].Url]; ok {
+					// 存在，不预警
+				} else {
+					refreshRooms[i].Platform = platform.GetPlatform()
+					notifyRooms = append(notifyRooms, refreshRooms[i])
+				}
+			}
+
+			platform.cacheRoom[refreshRooms[i].Url] = refreshRooms[i]
+		}
 	}
+
+	log.Printf("【链家】URL: %s, 缓存房源个数: %d\n", platform.InputURL, len(platform.cacheRoom))
 
 	return notifyRooms
 }
