@@ -1,11 +1,11 @@
 # 自如/链家新房源实时提醒机器人🤖️
 
-> 利用自如/链家网页版查询房源，解析HTML并分析房源，找到新上架房源并推送至钉钉群。
+> 利用自如/链家网页版查询房源，解析HTML并分析房源，找到新上架房源并推送至钉钉或飞书群。
 
 1. 首次初始化加载所选链接的所有房源（不通知）
 2. 等待下次任务调度，调度周期时间由`taskInterval`控制
 3. 执行任务，拿到最新房源数据，与上次房源集合进行比对
-4. 已存在房源pass，新房源通知钉钉
+4. 已存在房源pass，新房源通知钉钉或飞书群
 
 ## 第一步：通过自如/链家获取房源检索地址
 
@@ -26,17 +26,19 @@ Flags:
       --help                 Show context-sensitive help (also try --help-long and --help-man).
   -p, --notice="ding"        消息通知平台：ding（钉钉）、fs（飞书）
   -u, --noticeUrl=NOTICEURL  消息通知接口地址
-  -k, --noticeKey="Home"       消息通知授权KEY（白名单）
+  -k, --noticeKey="Home"     消息通知授权KEY（白名单）
   -t, --taskInterval=300     任务周期间隔时长，单位：秒
 
 Args:
-  [<url>]  自如/链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔。
+  [<url>]  自如或链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔，复杂地址请进行UrlEncode操作后录入
 ```
 
 以下进行举例：
 
-> ./robot --notice=ding --noticeUrl='https://oapi.dingtalk.com/robot/send?access_token=xxx' --noticeKey=xxx 'https://www.ziroom.com/z/z2-s100011-r0/?p=x1|14&cp=3000TO5000&isOpen=1' 'https://bj.lianjia.com/ditiezufang/li651/ie1su1rt200600000001rp4/?showMore=1'
->
+> ./robot --notice=ding --noticeUrl='https://oapi.dingtalk.com/robot/send?access_token=xxx' --noticeKey=xxx https%3A%2F%2Fwww.ziroom.com%2Fz%2Fz2-s100011-r0%2F%3Fp%3Dx1%7C14%26cp%3D3000TO5000%26isOpen%3D1 https%3A%2F%2Fbj.lianjia.com%2Fditiezufang%2Fli651%2Fie1su1rt200600000001rp4%2F%3FshowMore%3D1
+
+* UrlEncode工具网站：http://www.jsons.cn/urlencode/
+
 ## 第三步：钉钉通知
 
 ![](images/FCEF686C-A8A1-4FD5-AE75-038CA48A13E0.png)

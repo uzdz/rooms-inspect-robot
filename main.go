@@ -1,22 +1,23 @@
 package main
 
 import (
+	"gopkg.in/alecthomas/kingpin.v2"
+	"log"
+	urlUtils "net/url"
 	"strings"
 	"time"
 	"ziroom/internal/pkg"
 	"ziroom/internal/pkg/core"
 	notice2 "ziroom/internal/pkg/notice"
 	"ziroom/pkg/platform"
-
-	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
-	notice      = kingpin.Flag("notice", "消息通知平台：ding（钉钉）、fs（飞书）").Short('p').Default("ding").String()
-	noticeUrl      = kingpin.Flag("noticeUrl", "消息通知接口地址").Short('u').String()
-	noticeKey      = kingpin.Flag("noticeKey", "消息通知授权KEY（白名单）").Short('k').Default("推送").String()
+	notice       = kingpin.Flag("notice", "消息通知平台：ding（钉钉）、fs（飞书）").Short('p').Default("ding").String()
+	noticeUrl    = kingpin.Flag("noticeUrl", "消息通知接口地址").Short('u').String()
+	noticeKey    = kingpin.Flag("noticeKey", "消息通知授权KEY（白名单）").Short('k').Default("推送").String()
 	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长，单位：秒").Short('t').Default("300").Int()
-	url          = kingpin.Arg("url", "自如/链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔。").Strings()
+	url          = kingpin.Arg("url", "自如或链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔，复杂地址请进行UrlEncode操作后录入").Strings()
 )
 
 func main() {
@@ -30,19 +31,24 @@ func main() {
 	runExamples := make([]core.AbilityService, 0, 10)
 
 	for i := 0; i < len(examples); i++ {
-		value := examples[i]
+		encodeUrl := examples[i]
+		decodeUrl, err := urlUtils.QueryUnescape(encodeUrl)
+		if err != nil {
+			panic("【请求地址】解码失败：" + err.Error())
+		}
+		log.Printf("【请求地址】解码前：%s, 解码后：%s\n", encodeUrl, decodeUrl)
 
-		if strings.Contains(value, "ziroom") {
+		if strings.Contains(decodeUrl, "ziroom") {
 			example := &platform.ZIRoomImpl{
-				InputURL: value,
+				InputURL: decodeUrl,
 			}
 
 			// 生成请求模版
 			example.Validation()
 			runExamples = append(runExamples, example)
-		} else if strings.Contains(value, "lianjia") {
+		} else if strings.Contains(decodeUrl, "lianjia") {
 			example := &platform.LianJiaImpl{
-				InputURL: value,
+				InputURL: decodeUrl,
 			}
 
 			// 生成请求模版

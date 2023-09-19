@@ -40,7 +40,7 @@ func (platform *ZIRoomImpl) Validation() {
 	// 解析url 并保证没有错误
 	curl, err := url.Parse(platform.InputURL)
 	if err != nil {
-		panic("请求URL错误（解析失败）！" + err.Error())
+		panic("【请求地址】URL解析错误，请检查是否有特殊字符(换行...)：" + err.Error())
 	}
 
 	end := "/?isOpen=0"
