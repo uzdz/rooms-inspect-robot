@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM centos:7
 
 # 维护者信息
 LABEL maintainer="uzdz"
@@ -11,6 +11,8 @@ COPY ["rooms_robot", "/soft"]
 ENV NOTICE_CHANNEL=
 ENV NOTICE_CHANNEL_URL=
 ENV NOTICE_CHANNEL_KEY=
+ENV PROXY_URL=
+ENV TASK_INTERVAL=300
 
 # 添加一个脚本
 COPY ["entrypoint.sh", "/soft/entrypoint.sh"]
