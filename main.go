@@ -3,6 +3,7 @@ package main
 import (
 	"gopkg.in/alecthomas/kingpin.v2"
 	"log"
+	"net/http"
 	urlUtils "net/url"
 	"strings"
 	"time"
@@ -17,12 +18,30 @@ var (
 	noticeUrl    = kingpin.Flag("noticeUrl", "消息通知接口地址").Short('u').String()
 	noticeKey    = kingpin.Flag("noticeKey", "消息通知授权KEY（白名单）").Short('k').Default("推送").String()
 	taskInterval = kingpin.Flag("taskInterval", "任务周期间隔时长，单位：秒").Short('t').Default("300").Int()
+	proxyUrl     = kingpin.Flag("proxyUrl", "HTTP代理服务器配置，如果为空则不开启").Short('d').Default("").String()
 	url          = kingpin.Arg("url", "自如或链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔，复杂地址请进行UrlEncode操作后录入").Strings()
 )
 
 func main() {
 	kingpin.Parse()
 	examples := *url
+
+	// 配置代理服务器Ip
+	if *proxyUrl != "" {
+		// 代理服务器的地址和端口
+		proxyUrlParsed, err := urlUtils.Parse(*proxyUrl)
+		if err != nil {
+			log.Fatalf("无法解析代理URL[%s]：%v", *proxyUrl, err)
+		}
+
+		// 创建一个自定义的Transport
+		transport := &http.Transport{
+			Proxy: http.ProxyURL(proxyUrlParsed),
+		}
+
+		// 将自定义Transport设置为全局的默认Transport
+		http.DefaultTransport = transport
+	}
 
 	if examples == nil {
 		panic("请设置自如/链家网页版房源请求地址。")

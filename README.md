@@ -28,6 +28,7 @@ Flags:
   -u, --noticeUrl=NOTICEURL  消息通知接口地址
   -k, --noticeKey="Home"     消息通知授权KEY（白名单）
   -t, --taskInterval=300     任务周期间隔时长，单位：秒
+  -d, --proxyUrl=""          HTTP代理服务器配置，如果为空则不开启
 
 Args:
   [<url>]  自如或链家网页版房源请求地址，支持录入多地址，多个地址通过`空格`分隔，复杂地址请进行UrlEncode操作后录入
